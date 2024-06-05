@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const xhr = new XMLHttpRequest();
+      console.dir(xhr);
+
+      let requestmethod = "GET";
+
+      const requesturl = `https://apis.data.go.kr/6300000/openapi2022/restrnt/getrestrnt?serviceKey=HV8E%252BTY8D2sM0K0m4ySRar%252F5gcEogz%252FBFEg%252BWr5P0t7m67j5Mg6xuAy1wGLmzhNFVsgSQ%252BwjmzOshIxLiknILw%253D%253D&pageNo=1&numOfRows=10`;
+
+      xhr.open(requestmethod, requesturl, true);
+      xhr.send();
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status === 200) {
+          console.log("200은 성공 코드이다");
+
+          const result = JSON.parse(xhr.responseText);
+          console.dir(typeof result);
+          console.dir(result);
+          console.dir(result.response.body.items);
+
+          let foodarray = result.response.body.items;
+
+          const root = document.getElementById("root");
+
+          const lists = [];
+
+          foodarray.forEach((item, index) => {
+            if (
+              index === 0 ||
+              index === 1 ||
+              index === 3 ||
+              index === 8 ||
+              index === 9
+            ) {
+              console.log("빠진식당");
+            } else {
+              console.log(index);
+              lists.push(
+                `<li>${item.restrntNm}<ul><li>주소:${item.restrntAddr}</li><li>전화번호:${item.restrntInqrTel}</li><li>대표메뉴:${item.rprsFod}</li><li>식당설명:${item.restrntSumm}</li><li>영업시간:${item.salsTime}</li></ul></li>`
+              );
+            }
+          });
+
+          console.log(lists.join(""));
+
+          root.innerHTML = `<ol>${lists.join("")}</ol>`;
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- 주소 restrntAddr , 전화번호 restrntInqrTel, 설명 restrntSumm, 대표 메뉴 rprsFod, 영업시간 salsTime -->
