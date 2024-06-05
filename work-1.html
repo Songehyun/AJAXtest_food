@@ -35,14 +35,18 @@
           const lists = [];
 
           foodarray.forEach((item) => {
-            lists.push(`<li>${item.restrntNm}</li>`);
+            lists.push(
+              `<li>${item.restrntNm}<ul><li>주소:${item.restrntAddr}</li><li>전화번호:${item.restrntInqrTel}</li><li>대표메뉴:${item.rprsFod}</li><li>식당설명:${item.restrntSumm}</li><li>영업시간:${item.salsTime}</li></ul></li>`
+            );
           });
 
           console.log(lists.join(""));
 
-          root.innerHTML = `<ul>${lists.join("")}</ul>`;
+          root.innerHTML = `<ol>${lists.join("")}</ol>`;
         }
       });
     </script>
   </body>
 </html>
+
+<!-- 주소 restrntAddr , 전화번호 restrntInqrTel, 설명 restrntSumm, 대표 메뉴 rprsFod, 영업시간 salsTime -->
