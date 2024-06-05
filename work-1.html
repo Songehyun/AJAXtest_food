@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const xhr = new XMLHttpRequest();
+      console.dir(xhr);
+
+      let requestmethod = "GET";
+
+      const requesturl = `https://apis.data.go.kr/6300000/openapi2022/restrnt/getrestrnt?serviceKey=HV8E%252BTY8D2sM0K0m4ySRar%252F5gcEogz%252FBFEg%252BWr5P0t7m67j5Mg6xuAy1wGLmzhNFVsgSQ%252BwjmzOshIxLiknILw%253D%253D&pageNo=1&numOfRows=10`;
+
+      xhr.open(requestmethod, requesturl, true);
+      xhr.send();
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status === 200) {
+          console.log("200은 성공 코드이다");
+
+          const result = JSON.parse(xhr.responseText);
+          console.dir(typeof result);
+          console.dir(result);
+          console.dir(result.response.body.items[0]);
+
+          let foodarray = result.response.body.items;
+
+          const root = document.getElementById("root");
+
+          const lists = [];
+
+          foodarray.forEach((item) => {
+            lists.push(`<li>${item.restrntNm}</li>`);
+          });
+
+          console.log(lists.join(""));
+
+          root.innerHTML = `<ul>${lists.join("")}</ul>`;
+        }
+      });
+    </script>
+  </body>
+</html>
